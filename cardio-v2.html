@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VO2 Max Protocol — Age 28</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --surface: #111111;
+    --border: #1e1e1e;
+    --accent: #e8ff47;
+    --accent2: #ff4747;
+    --accent3: #47c8ff;
+    --text: #f0f0f0;
+    --muted: #555;
+    --warm: #ff9447;
+    --z1: #6bcfff;
+    --z2: #47c8ff;
+    --z3: #e8ff47;
+    --z4: #ff9447;
+    --z5: #ff4747;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 39px, #ffffff04 39px, #ffffff04 40px),
+      repeating-linear-gradient(90deg, transparent, transparent 39px, #ffffff04 39px, #ffffff04 40px);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 24px 16px 80px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── HEADER ── */
+  .badge {
+    display: inline-block;
+    background: var(--accent);
+    color: #000;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    padding: 4px 10px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(52px, 12vw, 88px);
+    line-height: 0.9;
+    letter-spacing: 0.02em;
+  }
+
+  h1 span { color: var(--accent); }
+
+  .subtitle {
+    margin-top: 10px;
+    font-size: 12px;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── SECTION LABEL ── */
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 10px;
+    margin-top: 28px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ── STAT GRID ── */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+    margin-bottom: 4px;
+  }
+
+  .stat-cell {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 14px 12px;
+    text-align: center;
+  }
+
+  .stat-val {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    line-height: 1;
+    color: var(--accent);
+  }
+
+  .stat-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-top: 4px;
+  }
+
+  /* ── HR ZONES TABLE ── */
+  .zones-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 4px;
+  }
+
+  .zones-table thead tr {
+    background: #0f0f0f;
+  }
+
+  .zones-table th {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    padding: 10px 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .zones-table td {
+    padding: 12px 12px;
+    border-bottom: 1px solid var(--border);
+    font-size: 12px;
+    background: var(--surface);
+    vertical-align: middle;
+  }
+
+  .zones-table tr:last-child td { border-bottom: none; }
+
+  .zone-name-cell {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .zone-swatch {
+    width: 4px;
+    height: 36px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  .zone-title {
+    font-weight: 600;
+    font-size: 13px;
+  }
+
+  .zone-desc {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 2px;
+    line-height: 1.4;
+  }
+
+  .zone-bpm {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    white-space: nowrap;
+  }
+
+  .zone-pct {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  .zone-use {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    line-height: 1.5;
+    color: var(--muted);
+  }
+
+  .zone-use strong {
+    color: var(--text);
+    display: block;
+    font-size: 11px;
+    margin-bottom: 2px;
+  }
+
+  /* Zone highlight */
+  .used-zone td { background: #141414; }
+
+  /* ── FORMULA BOX ── */
+  .formula-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    padding: 16px 18px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.8;
+  }
+
+  .formula-box .eq {
+    font-size: 18px;
+    color: var(--accent);
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 0.05em;
+    margin: 6px 0;
+  }
+
+  .formula-box .note {
+    font-size: 10px;
+    color: #444;
+    margin-top: 8px;
+    line-height: 1.5;
+  }
+
+  /* ── PROTOCOL TIMELINE ── */
+  .timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .tl-block {
+    display: grid;
+    grid-template-columns: 52px 1fr auto;
+    gap: 0;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 4px solid transparent;
+    overflow: hidden;
+  }
+
+  .tl-block.warmup  { border-left-color: var(--warm); }
+  .tl-block.work    { border-left-color: var(--z5); }
+  .tl-block.recover { border-left-color: var(--z3); }
+  .tl-block.cooldown{ border-left-color: var(--warm); }
+
+  .tl-index {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    border-right: 1px solid var(--border);
+    padding: 16px 8px;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .tl-index .tl-min {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 15px;
+    color: var(--muted);
+    line-height: 1;
+  }
+
+  .tl-body {
+    padding: 14px 16px;
+  }
+
+  .tl-name {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    margin-bottom: 4px;
+  }
+
+  .tl-tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 6px;
+  }
+
+  .tl-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    padding: 3px 8px;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  .tl-tag.hi { border-color: #ff474744; color: var(--z5); }
+  .tl-tag.md { border-color: #e8ff4744; color: var(--z3); }
+  .tl-tag.lo { border-color: #ff944744; color: var(--warm); }
+
+  .tl-cue {
+    font-size: 12px;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    line-height: 1.5;
+  }
+
+  .tl-hr-col {
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 2px;
+    min-width: 100px;
+    border-left: 1px solid var(--border);
+  }
+
+  .tl-hr-bpm {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  .tl-hr-dur {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+  }
+
+  .tl-hr-rpe {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  .warmup  .tl-hr-bpm { color: var(--warm); }
+  .work    .tl-hr-bpm { color: var(--z5); }
+  .recover .tl-hr-bpm { color: var(--z3); }
+  .cooldown .tl-hr-bpm { color: var(--warm); }
+
+  /* ── TIMER ── */
+  .timer-widget {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 24px;
+  }
+
+  .timer-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+  }
+
+  .timer-phase {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+  }
+
+  .timer-phase-name {
+    font-size: 18px;
+    font-weight: 600;
+    margin-top: 4px;
+  }
+
+  .timer-phase-cue {
+    font-size: 11px;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    margin-top: 3px;
+  }
+
+  .timer-hr-target {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    margin-top: 4px;
+  }
+
+  .timer-display {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 72px;
+    line-height: 1;
+    color: var(--accent);
+    letter-spacing: 0.02em;
+    text-align: right;
+  }
+
+  .timer-display.rest-mode  { color: var(--accent3); }
+  .timer-display.warm-mode  { color: var(--warm); }
+
+  .progress-track {
+    height: 3px;
+    background: var(--border);
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--accent);
+    transition: width 1s linear;
+  }
+
+  .progress-fill.rest-mode { background: var(--accent3); }
+  .progress-fill.warm-mode { background: var(--warm); }
+
+  .block-dots {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+
+  .bdot {
+    width: 20px;
+    height: 4px;
+    background: var(--border);
+    transition: background 0.3s;
+  }
+
+  .bdot.done    { background: var(--muted); }
+  .bdot.current { background: var(--accent); }
+
+  .controls {
+    display: flex;
+    gap: 8px;
+  }
+
+  .btn {
+    flex: 1;
+    padding: 14px;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .btn:hover { background: var(--border); color: var(--text); }
+
+  .btn.primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #000;
+    font-weight: 600;
+    flex: 2;
+  }
+
+  .btn.primary:hover { background: #d4eb00; }
+
+  /* ── PROGRAMMING GUIDE ── */
+  .week-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+  }
+
+  .day-cell {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 10px 8px;
+    text-align: center;
+  }
+
+  .day-name {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 6px;
+  }
+
+  .day-type {
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  .day-type.hiit  { color: var(--z5); }
+  .day-type.z2    { color: var(--z3); }
+  .day-type.rest  { color: #333; }
+  .day-type.flex  { color: var(--warm); }
+
+  .day-sub {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    color: var(--muted);
+    margin-top: 3px;
+    line-height: 1.3;
+  }
+
+  /* ── PROGRESSION TABLE ── */
+  .prog-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .prog-table th {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    padding: 10px 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+    background: #0f0f0f;
+  }
+
+  .prog-table td {
+    padding: 11px 12px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+    font-size: 12px;
+    font-family: 'DM Mono', monospace;
+    color: var(--muted);
+    vertical-align: top;
+  }
+
+  .prog-table td:first-child {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    color: var(--accent);
+    white-space: nowrap;
+  }
+
+  .prog-table td strong { color: var(--text); }
+  .prog-table tr:last-child td { border-bottom: none; }
+
+  /* ── ADAPTATION TIMELINE ── */
+  .adapt-row {
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    gap: 2px;
+    margin-bottom: 2px;
+  }
+
+  .adapt-week {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 14px 12px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    line-height: 1.1;
+  }
+
+  .adapt-body {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 14px 16px;
+  }
+
+  .adapt-title {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  .adapt-desc {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* ── SCIENCE CARDS ── */
+  .sci-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+  }
+
+  .sci-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 16px;
+  }
+
+  .sci-card-icon { font-size: 20px; margin-bottom: 8px; }
+
+  .sci-card-title {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--text);
+  }
+
+  .sci-card-body {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .sci-card-body strong { color: var(--text); }
+
+  /* ── NUTRITION STRIP ── */
+  .nutrition-strip {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+
+  .nut-cell {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 14px 12px;
+  }
+
+  .nut-timing {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 6px;
+  }
+
+  .nut-title {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+
+  .nut-body {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* interval highlight */
+  .interval-block { display: none; }
+  .active-block { background: #1a1a1a !important; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .fade { animation: fadeIn 0.6s ease both; }
+
+  .pulse { animation: pop 0.4s ease; }
+  @keyframes pop {
+    0%   { transform: scale(1); }
+    50%  { transform: scale(1.04); }
+    100% { transform: scale(1); }
+  }
+
+  @media (max-width: 520px) {
+    .stat-grid { grid-template-columns: repeat(2, 1fr); }
+    .sci-cards { grid-template-columns: 1fr; }
+    .nutrition-strip { grid-template-columns: 1fr; }
+    .zones-table { font-size: 11px; }
+    .tl-hr-col { min-width: 80px; }
+    .week-grid { grid-template-columns: repeat(4, 1fr); }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="fade">
+    <div class="badge">Age 28 · MHR 192 BPM · Protocol v2</div>
+    <h1>VO₂ MAX<br><span>PROTOCOL</span></h1>
+    <div class="subtitle">20 MIN · HIIT · CARDIAC REMODELING · ANTI-AGING STIMULUS</div>
+  </div>
+
+  <!-- STATS -->
+  <div class="section-label">Key Numbers — Age 28</div>
+  <div class="stat-grid fade">
+    <div class="stat-cell">
+      <div class="stat-val">192</div>
+      <div class="stat-label">Max HR (bpm)</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-val">163–182</div>
+      <div class="stat-val" style="font-size:14px;color:var(--muted)">bpm</div>
+      <div class="stat-label">Work Target</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-val">115–134</div>
+      <div class="stat-val" style="font-size:14px;color:var(--muted)">bpm</div>
+      <div class="stat-label">Recovery Target</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-val">~2–4</div>
+      <div class="stat-label">Weeks to Adapt</div>
+    </div>
+  </div>
+
+  <!-- HR FORMULA -->
+  <div class="section-label">Heart Rate Calculation</div>
+  <div class="formula-box fade">
+    <div>Tanaka Formula (most accurate for active adults):</div>
+    <div class="eq">MHR = 208 − (0.7 × Age) = 208 − (0.7 × 28) = <span style="color:var(--text)">192 BPM</span></div>
+    <div>Karvonen Method — Heart Rate Reserve targets use resting HR (RHR):</div>
+    <div class="eq">Target HR = RHR + (HRR × Zone%) &nbsp;|&nbsp; HRR = MHR − RHR</div>
+    <div class="note">
+      Zones below calculated using pure % of MHR (Tanaka). If you know your resting HR, the Karvonen method gives tighter personalized zones — subtract your RHR from 192 to get HRR, then apply zone percentages to HRR and add RHR back.<br><br>
+      Example with RHR 55: HRR = 137. Zone 4 target = 55 + (137 × 0.80) = 165 bpm.
+    </div>
+  </div>
+
+  <!-- HR ZONES TABLE -->
+  <div class="section-label">Heart Rate Zones — Age 28 (MHR 192)</div>
+  <table class="zones-table fade">
+    <thead>
+      <tr>
+        <th>Zone</th>
+        <th>BPM Range</th>
+        <th>% MHR</th>
+        <th>When Used</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <div class="zone-name-cell">
+            <div class="zone-swatch" style="background:var(--z1)"></div>
+            <div>
+              <div class="zone-title" style="color:var(--z1)">Zone 1</div>
+              <div class="zone-desc">Active Recovery<br>Full sentences, easy</div>
+            </div>
+          </div>
+        </td>
+        <td><div class="zone-bpm" style="color:var(--z1)">96–115</div></td>
+        <td><div class="zone-pct">50–60%</div></td>
+        <td><div class="zone-use"><strong>Warm-up / Cool-down start</strong>Very easy walk or casual movement.</div></td>
+      </tr>
+      <tr>
+        <td>
+          <div class="zone-name-cell">
+            <div class="zone-swatch" style="background:var(--z2)"></div>
+            <div>
+              <div class="zone-title" style="color:var(--z2)">Zone 2</div>
+              <div class="zone-desc">Aerobic Base<br>Can hold conversation</div>
+            </div>
+          </div>
+        </td>
+        <td><div class="zone-bpm" style="color:var(--z2)">115–134</div></td>
+        <td><div class="zone-pct">60–70%</div></td>
+        <td><div class="zone-use"><strong>Recovery intervals + Zone 2 sessions</strong>Fat oxidation, mitochondrial density, capillary growth.</div></td>
+      </tr>
+      <tr>
+        <td>
+          <div class="zone-name-cell">
+            <div class="zone-swatch" style="background:var(--z3)"></div>
+            <div>
+              <div class="zone-title" style="color:var(--z3)">Zone 3</div>
+              <div class="zone-desc">Tempo / Aerobic<br>Short phrases only</div>
+            </div>
+          </div>
+        </td>
+        <td><div class="zone-bpm" style="color:var(--z3)">134–154</div></td>
+        <td><div class="zone-pct">70–80%</div></td>
+        <td><div class="zone-use"><strong>Warm-up peak / active recovery</strong>The "grey zone" — useful but not optimal for VO₂ max specifically.</div></td>
+      </tr>
+      <tr class="used-zone">
+        <td>
+          <div class="zone-name-cell">
+            <div class="zone-swatch" style="background:var(--z4)"></div>
+            <div>
+              <div class="zone-title" style="color:var(--z4)">Zone 4 ★</div>
+              <div class="zone-desc">Lactate Threshold<br>1–2 words max</div>
+            </div>
+          </div>
+        </td>
+        <td><div class="zone-bpm" style="color:var(--z4)">154–173</div></td>
+        <td><div class="zone-pct">80–90%</div></td>
+        <td><div class="zone-use"><strong>Work intervals (early reps)</strong>Raises lactate threshold, VO₂ max stimulus begins here.</div></td>
+      </tr>
+      <tr class="used-zone">
+        <td>
+          <div class="zone-name-cell">
+            <div class="zone-swatch" style="background:var(--z5)"></div>
+            <div>
+              <div class="zone-title" style="color:var(--z5)">Zone 5 ★★</div>
+              <div class="zone-desc">VO₂ Max Zone<br>Cannot speak</div>
+            </div>
+          </div>
+        </td>
+        <td><div class="zone-bpm" style="color:var(--z5)">173–192</div></td>
+        <td><div class="zone-pct">90–100%</div></td>
+        <td><div class="zone-use"><strong>Work intervals (later reps)</strong>Primary VO₂ max driver. Max cardiac output, O₂ extraction ceiling.</div></td>
+      </tr>
+    </tbody>
+  </table>
+  <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);padding:8px 12px;background:var(--surface);border:1px solid var(--border);border-top:none;margin-bottom:4px">
+    ★ = Active in this protocol &nbsp;|&nbsp; Zones 4–5 (163–192 bpm) are your work interval targets
+  </div>
+
+  <!-- PROTOCOL TIMELINE -->
+  <div class="section-label">Full Interval Breakdown — 20 Minutes</div>
+  <div class="timeline fade" id="intervalList"></div>
+
+  <!-- TIMER -->
+  <div class="section-label">Interval Timer</div>
+  <div class="timer-widget fade">
+    <div class="timer-top">
+      <div>
+        <div class="timer-phase" id="timerPhaseLabel">READY</div>
+        <div class="timer-phase-name" id="timerPhaseName">Hit Start to Begin</div>
+        <div class="timer-phase-cue" id="timerPhaseCue">6 × 1 min work / 1 min recover</div>
+        <div class="timer-hr-target" id="timerHrTarget" style="color:var(--muted)">—</div>
+      </div>
+      <div class="timer-display" id="timerDisplay">20:00</div>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill" style="width:0%"></div>
+    </div>
+    <div class="block-dots" id="blockDots"></div>
+    <div class="controls">
+      <button class="btn" onclick="resetTimer()">Reset</button>
+      <button class="btn primary" id="startBtn" onclick="toggleTimer()">Start</button>
+      <button class="btn" onclick="skipBlock()">Skip →</button>
+    </div>
+  </div>
+
+  <!-- WEEKLY PROGRAMMING -->
+  <div class="section-label">Optimal Weekly Structure</div>
+  <div class="week-grid fade">
+    <div class="day-cell">
+      <div class="day-name">Mon</div>
+      <div class="day-type hiit">HIIT</div>
+      <div class="day-sub">This protocol 20 min</div>
+    </div>
+    <div class="day-cell">
+      <div class="day-name">Tue</div>
+      <div class="day-type z2">Zone 2</div>
+      <div class="day-sub">30–45 min easy jog/bike</div>
+    </div>
+    <div class="day-cell">
+      <div class="day-name">Wed</div>
+      <div class="day-type rest">Rest</div>
+      <div class="day-sub">Walk only. Cardiac adaptation occurs here.</div>
+    </div>
+    <div class="day-cell">
+      <div class="day-name">Thu</div>
+      <div class="day-type hiit">HIIT</div>
+      <div class="day-sub">This protocol 20 min</div>
+    </div>
+    <div class="day-cell">
+      <div class="day-name">Fri</div>
+      <div class="day-type z2">Zone 2</div>
+      <div class="day-sub">30–45 min easy jog/bike</div>
+    </div>
+    <div class="day-cell">
+      <div class="day-name">Sat</div>
+      <div class="day-type flex">Flex</div>
+      <div class="day-sub">Sport / strength / longer Z2</div>
+    </div>
+    <div class="day-cell">
+      <div class="day-name">Sun</div>
+      <div class="day-type rest">Rest</div>
+      <div class="day-sub">Full recovery</div>
+    </div>
+  </div>
+
+  <!-- PROGRESSION -->
+  <div class="section-label">8-Week Progression Plan</div>
+  <table class="prog-table fade">
+    <thead>
+      <tr>
+        <th>Phase</th>
+        <th>Weeks</th>
+        <th>Work Interval</th>
+        <th>Rest Interval</th>
+        <th>Sets</th>
+        <th>Goal</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Base</td>
+        <td>1–2</td>
+        <td>45 sec @ Z4<br><span style="color:var(--z4)">154–173 bpm</span></td>
+        <td>90 sec</td>
+        <td>5×</td>
+        <td><strong>Establish form & aerobic ceiling</strong> — don't go too hard too fast</td>
+      </tr>
+      <tr>
+        <td>Build</td>
+        <td>3–4</td>
+        <td>60 sec @ Z4–5<br><span style="color:var(--z5)">163–182 bpm</span></td>
+        <td>60 sec</td>
+        <td>6×</td>
+        <td><strong>This protocol.</strong> 1:1 work:rest, prime VO₂ max stimulus</td>
+      </tr>
+      <tr>
+        <td>Overload</td>
+        <td>5–6</td>
+        <td>90 sec @ Z4–5<br><span style="color:var(--z5)">163–182 bpm</span></td>
+        <td>60 sec</td>
+        <td>5×</td>
+        <td><strong>Extend time in zone.</strong> Forces cardiac output ceiling higher</td>
+      </tr>
+      <tr>
+        <td>Peak</td>
+        <td>7–8</td>
+        <td>2 min @ Z4–5</td>
+        <td>60 sec</td>
+        <td>4–5×</td>
+        <td><strong>Max VO₂ stimulus.</strong> Longer intervals, full zone 5 engagement</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ADAPTATION TIMELINE -->
+  <div class="section-label">What Happens in Your Body — Week by Week</div>
+  <div class="fade">
+    <div class="adapt-row">
+      <div class="adapt-week">WK<br>1–2</div>
+      <div class="adapt-body">
+        <div class="adapt-title">Neural & Metabolic Priming</div>
+        <div class="adapt-desc">Your body learns pacing. Lactate buffering improves slightly. You'll feel it's harder than it looks — that's normal. Stroke volume changes haven't begun yet. HR will feel very high for the perceived effort.</div>
+      </div>
+    </div>
+    <div class="adapt-row">
+      <div class="adapt-week">WK<br>3–4</div>
+      <div class="adapt-body">
+        <div class="adapt-title">Cardiac Output Increases</div>
+        <div class="adapt-desc">Left ventricular volume begins expanding (cardiac hypertrophy — the athletic kind). Stroke volume increases. You'll notice the same interval pace feels slightly easier. Resting HR may drop 1–3 bpm.</div>
+      </div>
+    </div>
+    <div class="adapt-row">
+      <div class="adapt-week">WK<br>5–6</div>
+      <div class="adapt-body">
+        <div class="adapt-title">Mitochondrial Density + VO₂ Gains</div>
+        <div class="adapt-desc">Mitochondria proliferate in muscle cells. Oxygen extraction improves. VO₂ max measurably increases — often 5–8% in untrained or lapsed athletes. Lactate threshold shifts right.</div>
+      </div>
+    </div>
+    <div class="adapt-row">
+      <div class="adapt-week">WK<br>7–8</div>
+      <div class="adapt-body">
+        <div class="adapt-title">Full Protocol Adaptation</div>
+        <div class="adapt-desc">You'll likely need to increase pace/resistance to maintain Zone 4–5 HR — a sign VO₂ max has improved. Running economy improves. Time to progress (longer intervals, more sets, or move to 4×4 protocol).</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCIENCE DEEP DIVE -->
+  <div class="section-label">The Science — Why VO₂ Max = Biological Age</div>
+  <div class="sci-cards fade">
+    <div class="sci-card">
+      <div class="sci-card-icon">🫀</div>
+      <div class="sci-card-title">Cardiac Remodeling</div>
+      <div class="sci-card-body">HIIT induces eccentric left ventricular hypertrophy — the heart literally gets bigger and pumps more per beat. <strong>Stroke volume can increase 15–25%</strong> with consistent training, lowering resting HR and improving cardiac efficiency at all intensities.</div>
+    </div>
+    <div class="sci-card">
+      <div class="sci-card-icon">⚗️</div>
+      <div class="sci-card-title">Mitochondrial Biogenesis</div>
+      <div class="sci-card-body">Zone 4–5 work activates PGC-1α, the master regulator of mitochondrial production. <strong>More mitochondria = more ATP production = higher sustainable power output.</strong> This is the primary mechanism of VO₂ max gain at the cellular level.</div>
+    </div>
+    <div class="sci-card">
+      <div class="sci-card-icon">📉</div>
+      <div class="sci-card-title">Longevity Data</div>
+      <div class="sci-card-body">Peter Attia and Levine et al. (2018) JAMA study: <strong>each MET (~3.5 ml/kg/min VO₂) increase in fitness reduces mortality risk ~13%.</strong> Going from "low fit" to "moderate fit" cuts 10-year mortality risk more than quitting smoking.</div>
+    </div>
+    <div class="sci-card">
+      <div class="sci-card-icon">🧬</div>
+      <div class="sci-card-title">Telomere Effect</div>
+      <div class="sci-card-body">HIIT has been shown to increase telomerase activity — the enzyme that protects and rebuilds telomere length. <strong>Telomere length is a direct biological age marker.</strong> 2019 Mayo Clinic study: HIIT increased telomerase activity ~69% vs. resistance training's 28%.</div>
+    </div>
+  </div>
+
+  <!-- NUTRITION -->
+  <div class="section-label">Peri-Workout Nutrition</div>
+  <div class="nutrition-strip fade">
+    <div class="nut-cell">
+      <div class="nut-timing">60–90 min before</div>
+      <div class="nut-title">Pre-Workout</div>
+      <div class="nut-body">Light, fast-digesting carbs + small protein. Oats + banana, rice cake + nut butter, or Greek yogurt + fruit. <strong>Avoid fat + fiber</strong> — slows gastric emptying, kills high-intensity output. Hydrate 500ml water.</div>
+    </div>
+    <div class="nut-cell">
+      <div class="nut-timing">During</div>
+      <div class="nut-title">During Session</div>
+      <div class="nut-body">20 minutes — no food needed. Water only. Electrolytes optional if sweating heavily (sodium, potassium). <strong>No sugar drinks</strong> during HIIT — blunts the fat-burning and mitochondrial signaling stimulus.</div>
+    </div>
+    <div class="nut-cell">
+      <div class="nut-timing">30–60 min after</div>
+      <div class="nut-title">Post-Workout</div>
+      <div class="nut-body">Protein + carbs within the anabolic window. <strong>30–40g protein + 40–60g carbs.</strong> Chicken + rice, protein shake + banana, eggs + toast. Prioritizes glycogen replenishment and muscle protein synthesis for the cardiac adaptations.</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// Age 28 | MHR = 192
+const INTERVALS = [
+  { name:"Warm-Up",    cue:"Easy jog/cycle — HR climbing, joints loose",              duration:180, type:"warmup",  hrTarget:"115–134 bpm (Z2)",   hrColor:"var(--warm)" },
+  { name:"Work 1",     cue:"Build to 85–90% MHR. Find your ceiling pace.",            duration:60,  type:"work",    hrTarget:"163–182 bpm (Z4–5)", hrColor:"var(--z5)"  },
+  { name:"Recover 1",  cue:"Slow jog or easy pedal — stay moving, don't stop",        duration:60,  type:"recover", hrTarget:"115–134 bpm (Z2)",   hrColor:"var(--z3)"  },
+  { name:"Work 2",     cue:"Match Work 1 pace. HR should hit ~170+ by end.",          duration:60,  type:"work",    hrTarget:"163–182 bpm (Z4–5)", hrColor:"var(--z5)"  },
+  { name:"Recover 2",  cue:"Breathe. Shake out arms. Keep legs moving.",              duration:60,  type:"recover", hrTarget:"115–134 bpm (Z2)",   hrColor:"var(--z3)"  },
+  { name:"Work 3",     cue:"Midpoint. This is where the adaptation happens. Commit.", duration:60,  type:"work",    hrTarget:"163–182 bpm (Z4–5)", hrColor:"var(--z5)"  },
+  { name:"Recover 3",  cue:"Mental reset. Visualize the next rep.",                   duration:60,  type:"recover", hrTarget:"115–134 bpm (Z2)",   hrColor:"var(--z3)"  },
+  { name:"Work 4",     cue:"4 of 6. You're past halfway. Match or beat prior reps.",  duration:60,  type:"work",    hrTarget:"163–182 bpm (Z4–5)", hrColor:"var(--z5)"  },
+  { name:"Recover 4",  cue:"Two more to go. Control your breath rate.",               duration:60,  type:"recover", hrTarget:"115–134 bpm (Z2)",   hrColor:"var(--z3)"  },
+  { name:"Work 5",     cue:"Two left. Find another gear — push above 175 bpm.",       duration:60,  type:"work",    hrTarget:"173–192 bpm (Z5)",   hrColor:"var(--z5)"  },
+  { name:"Recover 5",  cue:"Last rest. Use it. This recovery is almost as important.", duration:60, type:"recover", hrTarget:"115–134 bpm (Z2)",   hrColor:"var(--z3)"  },
+  { name:"Work 6",     cue:"Final push. Max effort. Leave nothing. Zone 5 full send.", duration:60, type:"work",    hrTarget:"173–192 bpm (Z5)",   hrColor:"var(--z5)"  },
+  { name:"Cool-Down",  cue:"Walk or very easy movement — bring HR under 115 bpm",    duration:180, type:"cooldown",hrTarget:"96–115 bpm (Z1–2)",  hrColor:"var(--warm)" },
+];
+
+const TOTAL = INTERVALS.reduce((s,i)=>s+i.duration,0);
+let currentBlock=0, timeInBlock=0, totalElapsed=0, timer=null, running=false;
+
+function fmt(s){ return `${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`; }
+
+function buildList(){
+  const list = document.getElementById('intervalList');
+  list.innerHTML = '';
+  let cum = 0;
+  INTERVALS.forEach((iv,i)=>{
+    cum += iv.duration;
+    const tags = {
+      work:    `<span class="tl-tag hi">Zone 4–5</span><span class="tl-tag hi">RPE 8–9</span>`,
+      recover: `<span class="tl-tag md">Zone 2</span><span class="tl-tag md">RPE 5–6</span>`,
+      warmup:  `<span class="tl-tag lo">Zone 2–3</span><span class="tl-tag lo">RPE 4–5</span>`,
+      cooldown:`<span class="tl-tag lo">Zone 1–2</span><span class="tl-tag lo">RPE 3–4</span>`,
+    }[iv.type];
+    const div = document.createElement('div');
+    div.className = `tl-block ${iv.type}`;
+    div.id = `block-${i}`;
+    div.innerHTML = `
+      <div class="tl-index">
+        <span>${String(i+1).padStart(2,'0')}</span>
+        <span class="tl-min">${fmt(cum-iv.duration)}</span>
+      </div>
+      <div class="tl-body">
+        <div class="tl-name">${iv.name}</div>
+        <div class="tl-tags">${tags}<span class="tl-tag">${fmt(iv.duration)}</span></div>
+        <div class="tl-cue">${iv.cue}</div>
+      </div>
+      <div class="tl-hr-col">
+        <div class="tl-hr-bpm" style="color:${iv.hrColor}">${iv.hrTarget.split(' ')[0]}</div>
+        <div class="tl-hr-dur">${iv.hrTarget.split(' ').slice(1).join(' ')}</div>
+        <div class="tl-hr-rpe">${fmt(iv.duration)}</div>
+      </div>
+    `;
+    list.appendChild(div);
+  });
+}
+
+function buildDots(){
+  const dots = document.getElementById('blockDots');
+  dots.innerHTML = '';
+  INTERVALS.forEach((_,i)=>{
+    const d = document.createElement('div');
+    d.className = 'bdot';
+    d.id = `dot-${i}`;
+    dots.appendChild(d);
+  });
+}
+
+function updateUI(){
+  const iv = INTERVALS[currentBlock];
+  const remaining = iv.duration - timeInBlock;
+  const disp = document.getElementById('timerDisplay');
+  disp.textContent = fmt(remaining);
+  disp.className = 'timer-display';
+  if(iv.type==='recover') disp.classList.add('rest-mode');
+  if(iv.type==='warmup'||iv.type==='cooldown') disp.classList.add('warm-mode');
+  document.getElementById('timerPhaseLabel').textContent = `BLOCK ${currentBlock+1} / ${INTERVALS.length}`;
+  document.getElementById('timerPhaseName').textContent = iv.name;
+  document.getElementById('timerPhaseCue').textContent = iv.cue;
+  document.getElementById('timerHrTarget').textContent = '🫀 Target: ' + iv.hrTarget;
+  document.getElementById('timerHrTarget').style.color = iv.hrColor;
+  const pct = (totalElapsed/TOTAL)*100;
+  const fill = document.getElementById('progressFill');
+  fill.style.width = pct+'%';
+  fill.className = 'progress-fill';
+  if(iv.type==='recover') fill.classList.add('rest-mode');
+  if(iv.type==='warmup'||iv.type==='cooldown') fill.classList.add('warm-mode');
+  document.querySelectorAll('.tl-block').forEach((el,i)=>{
+    el.style.background = (i===currentBlock) ? '#1a1a1a' : '';
+    if(i===currentBlock) el.scrollIntoView({behavior:'smooth',block:'nearest'});
+  });
+  document.querySelectorAll('.bdot').forEach((d,i)=>{
+    d.classList.remove('done','current');
+    if(i<currentBlock) d.classList.add('done');
+    if(i===currentBlock) d.classList.add('current');
+  });
+}
+
+function tick(){
+  timeInBlock++; totalElapsed++;
+  if(timeInBlock>=INTERVALS[currentBlock].duration){
+    if(currentBlock<INTERVALS.length-1){
+      currentBlock++; timeInBlock=0;
+      const d=document.getElementById('timerDisplay');
+      d.classList.add('pulse');
+      setTimeout(()=>d.classList.remove('pulse'),400);
+    } else {
+      clearInterval(timer); running=false;
+      document.getElementById('startBtn').textContent='Done ✓';
+      document.getElementById('timerPhaseName').textContent='Workout Complete';
+      document.getElementById('timerPhaseCue').textContent='Excellent work. Hydrate. Recover.';
+      document.getElementById('timerHrTarget').textContent='HR should return to < 100 bpm within 5 min';
+      document.getElementById('timerHrTarget').style.color='var(--muted)';
+      document.getElementById('timerDisplay').textContent='00:00';
+      document.getElementById('progressFill').style.width='100%';
+      document.querySelectorAll('.bdot').forEach(d=>{d.classList.remove('current');d.classList.add('done');});
+      return;
+    }
+  }
+  updateUI();
+}
+
+function toggleTimer(){
+  if(running){
+    clearInterval(timer); running=false;
+    document.getElementById('startBtn').textContent='Resume';
+  } else {
+    running=true;
+    document.getElementById('startBtn').textContent='Pause';
+    timer=setInterval(tick,1000);
+    updateUI();
+  }
+}
+
+function resetTimer(){
+  clearInterval(timer); running=false;
+  currentBlock=0; timeInBlock=0; totalElapsed=0;
+  document.getElementById('startBtn').textContent='Start';
+  document.getElementById('timerDisplay').textContent='20:00';
+  document.getElementById('timerDisplay').className='timer-display';
+  document.getElementById('progressFill').style.width='0%';
+  document.getElementById('timerPhaseLabel').textContent='READY';
+  document.getElementById('timerPhaseName').textContent='Hit Start to Begin';
+  document.getElementById('timerPhaseCue').textContent='6 × 1 min work / 1 min recover';
+  document.getElementById('timerHrTarget').textContent='—';
+  document.getElementById('timerHrTarget').style.color='var(--muted)';
+  document.querySelectorAll('.bdot').forEach(d=>d.className='bdot');
+  document.querySelectorAll('.tl-block').forEach(el=>el.style.background='');
+}
+
+function skipBlock(){
+  if(!running&&totalElapsed===0) return;
+  totalElapsed+=INTERVALS[currentBlock].duration-timeInBlock;
+  timeInBlock=0;
+  if(currentBlock<INTERVALS.length-1){ currentBlock++; updateUI(); }
+}
+
+buildList();
+buildDots();
+</script>
+</body>
+</html>
